@@ -27,7 +27,7 @@ const EditNote = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [id, longText]);
 
   const onEditNoteHandler = async () => {
     const values = {

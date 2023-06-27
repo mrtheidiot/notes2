@@ -10,6 +10,8 @@ const CustomEditor = forwardRef((props, ref) => {
 
   const useDarkMode = true;
 
+  
+
   return (
     <>
       <Editor
@@ -97,5 +99,7 @@ const CustomEditor = forwardRef((props, ref) => {
     </>
   );
 });
+
+CustomEditor.displayName = 'Custom Editor'
 
 export default CustomEditor;
