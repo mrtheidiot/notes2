@@ -10,8 +10,6 @@ const CustomEditor = forwardRef((props, ref) => {
 
   const useDarkMode = true;
 
-  
-
   return (
     <>
       <Editor
@@ -21,7 +19,7 @@ const CustomEditor = forwardRef((props, ref) => {
         initialValue={
           props.longText
             ? props.longText
-            : "<p>This is the initial content of the editorrr.</p>"
+            : "<p>This is the initial content of the editor.</p>"
         }
         init={{
           selector: "textarea#open-source-plugins",
@@ -31,13 +29,14 @@ const CustomEditor = forwardRef((props, ref) => {
           toolbar:
             "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl",
           toolbar_sticky: true,
-          autosave_ask_before_unload: false,
+          autosave_ask_before_unload: true,
           autosave_interval: "30s",
           autosave_prefix: "{path}{query}-{id}-",
           autosave_restore_when_empty: false,
           autosave_retention: "2m",
           image_advtab: true,
           importcss_append: true,
+          deprecation_warnings: false,
           file_picker_callback: function (callback, value, meta) {
             /* Provide file and text for the link dialog */
             if (meta.filetype === "file") {
@@ -95,7 +94,7 @@ const CustomEditor = forwardRef((props, ref) => {
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
-      <button onClick={log}>Log</button>
+      {/* <button onClick={log}>Log</button> */}
     </>
   );
 });

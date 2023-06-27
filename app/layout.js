@@ -1,7 +1,8 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "./components/Navbar";
-import Todo from "./components/ToDo";
+import Todo from "./components/Todo";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,14 +15,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
+        <div className="p-2">
+          <Navbar />
 
-        <main className="w-full mx-auto flex mt-2">
-          <section className="w-2/3">{children}</section>
-          <section className="w-1/3">
-            <Todo />
-          </section>
-        </main>
+          <main className="w-full flex ">
+            <section className="w-2/3">{children}</section>
+            <section className="w-1/3 p-0">
+              
+              <Todo />
+            </section>
+          </main>
+        </div>
       </body>
     </html>
   );

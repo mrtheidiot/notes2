@@ -1,6 +1,9 @@
 import React from "react";
-import { query } from "@/lib/db";
-import { getNotes_IdTitleCreatedUpdated } from "@/lib/sqlQueries";
+// import { query } from "@/lib/db";
+import { query } from "../../lib/db";
+// import { getNotes_IdTitleCreatedUpdated } from "@/lib/sqlQueries";
+import { getNotes_IdTitleCreatedUpdated } from "../../lib/sqlQueries";
+
 import Link from "next/link";
 
 const Notes = async () => {

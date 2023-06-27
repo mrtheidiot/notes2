@@ -1,6 +1,8 @@
-import { query } from "@/lib/db";
-import { addNoteToDb } from "@/lib/db";
-import { formatDate } from "@/lib/formatedDate";
+// import { query } from "@/lib/db";
+// import { addNoteToDb } from "@/lib/db";
+import { addNoteToDb } from "../../../lib/db";
+// import { formatDate } from "@/lib/formatedDate";
+import { formatDate } from "../../../lib/formatedDate";
 
 export async function GET(req) {
   return new Response("Hello, Next.js!");

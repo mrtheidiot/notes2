@@ -1,6 +1,8 @@
-import { pullOneNote } from "@/lib/db";
+// import { pullOneNote } from "@/lib/db";
+import { pullOneNote } from "../../../../lib/db";
 import { NextResponse } from "next/server";
-import { query } from "@/lib/db";
+// import { query } from "@/lib/db";
+import { query } from "../../../../lib/db";
 
 export async function GET(request, context) {
   const id = context.params.noteid;
@@ -10,7 +12,7 @@ export async function GET(request, context) {
 
 export async function PATCH(request, context) {
   const id = context.params.noteid;
-  const { title, tags, long_text } = JSON.parse(
+  const { title, tags, long_text, date_time_field } = JSON.parse(
     await new Response(request.body).text()
   );
 
@@ -20,8 +22,8 @@ export async function PATCH(request, context) {
   //   );
 
   const query2 =
-    "UPDATE notes SET title = ?, tags = ?, long_text = ? WHERE id = ?";
-  const values = [title, tags, long_text, id];
+    "UPDATE notes SET title = ?, tags = ?, long_text = ?, date_time_field = ? WHERE id = ?";
+  const values = [title, tags, long_text, date_time_field, id];
   await query(query2, values);
 
   return new Response("The note was added to to the DB!");
