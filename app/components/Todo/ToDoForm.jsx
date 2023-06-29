@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const TodoForm = () => {
+const TodoForm = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
@@ -28,16 +28,21 @@ const TodoForm = () => {
         "Content-Type": "appliation/json",
       },
       body: JSON.stringify(newTodoItem),
-    })
-    router.push("/notes")
-    // const data = await response.json();
-    // setTodo((prev) => [...prev, newTodoItem]);
+    });
 
-    // setTitle("");
-    // setDetails("");
-    // setDueDate("");
-    // setPriority("");
-    // setStatus("");
+    const data = await response.json();
+
+    console.log(data);
+
+    const newTodoItemCurrent = { ...newTodoItem, id: data };
+
+    props.setTodo((prev) => [...prev, newTodoItemCurrent]);
+
+    setTitle("");
+    setDetails("");
+    setDueDate("");
+    setPriority("");
+    setStatus("");
 
     setIsOpen(false);
   };

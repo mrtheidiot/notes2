@@ -1,15 +1,16 @@
-import { query } from "../../../../lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET(request, context) {
+export async function DELETE(request, context) {
   const id = context.params.todoid;
 
   console.log(id)
 
-  const queryText = `DELETE FROM ToDoList WHERE item_id = ${id};`;
-  const values2 = [];
-
-  await query(queryText, values2);
+  await fetch(
+    `https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/todolist/${id}.json`,
+    {
+      method: "DELETE",
+    }
+  );
 
   return NextResponse.json(
     { message: "Item successfuly deleted!" },

@@ -19,7 +19,7 @@ const AddNewNote = () => {
     };
 
     try {
-      const response = await fetch('/api/notes', {
+      const response = await fetch('/api/notes/06-2023.json', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

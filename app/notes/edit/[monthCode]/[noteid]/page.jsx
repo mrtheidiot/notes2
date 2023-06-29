@@ -1,7 +1,7 @@
 "use client";
 
 // import CustomEditor from "@/app/components/Editor";
-import CustomEditor from "../../../components/Editor";
+import CustomEditor from "../../../../components/Editor";
 
 import React, {
   useRef,
@@ -12,11 +12,12 @@ import React, {
 } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { formatDate } from "../../../../lib/formatedDate";
+import { formatDate } from "../../../../../lib/formatedDate";
 
 const EditNote = () => {
   const params = useParams();
   const id = params.noteid;
+  const monthCode = params.monthCode;
 
   const editorRef = useRef(null);
   const [title, setTitle] = useState("");
@@ -44,7 +45,7 @@ const EditNote = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/notes/${id}`);
+        const response = await fetch(`/api/notes/${monthCode}/${id}`);
         const data = await response.json();
         setTitle(data.title);
         setTags(data.tags);
@@ -55,7 +56,7 @@ const EditNote = () => {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, monthCode]);
 
   const onEditNoteHandler = useCallback(async () => {
     const formatedDate = formatDate(new Date(date));
@@ -70,7 +71,7 @@ const EditNote = () => {
     console.log(values.title);
 
     try {
-      const response = await fetch(`/api/notes/${id}`, {
+      const response = await fetch(`/api/notes/${monthCode}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -78,7 +79,7 @@ const EditNote = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [title, tags, date, id]);
+  }, [title, tags, date, id, monthCode]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

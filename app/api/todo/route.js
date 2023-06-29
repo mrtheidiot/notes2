@@ -1,27 +1,62 @@
-import { query } from "../../../lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
-  const items = await query("SELECT * FROM ToDoList;", []);
-  return NextResponse.json(items[0], { status: 200 });
+  const response = await fetch(
+    `https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/todolist.json`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  const data = await response.json();
+
+  let items = [];
+  for (let item in data) {
+    let obj = data[item];
+    obj.id = item;
+
+    items.push(obj);
+  }
+
+  return NextResponse.json(items, { status: 200 });
 }
 
 export async function POST(req) {
   let text = JSON.parse(await new Response(req.body).text()); //temp
 
-  const newDate = text.due_date ? text.due_date : new Date ()
-  const newPriority = text.priority ? text.priority : 'Low'
-  const newStatus = text.status ? text.status : "Pending"
+  const newDate = text.due_date ? text.due_date : new Date();
+  const newPriority = text.priority ? text.priority : "Low";
+  const newStatus = text.status ? text.status : "Pending";
 
   const { title, details } = text;
 
+  const newTodo = {
+    title,
+    details,
+    due_date: newDate,
+    priority: newPriority,
+    status: newStatus,
+  };
 
+  const response = await fetch(
+    `https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/todolist.json`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "applicaton/json",
+      },
+      body: JSON.stringify(newTodo),
+    }
+  );
 
-  const values = [title, details, newDate, newPriority, newStatus];
-  const query1 =
-    "INSERT INTO ToDoList (title, details, due_date, priority, status) VALUES (?, ?, ?, ?, ?)";
+  const data = await response.json();
 
-  await query(query1, values);
-
-  return new Response("The note was added to to the DB!");
+  return new NextResponse(JSON.stringify(data.name), { status: 200 });
 }
+
+// item_id INT PRIMARY KEY,
+// title VARCHAR(100),
+// details TEXT,
+// due_date DATE,
+// priority ENUM('Low', 'Medium', 'High'),
+// status ENUM('Pending', 'In Progress', 'Completed')

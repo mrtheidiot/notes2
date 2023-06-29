@@ -30,13 +30,11 @@ export const addNoteToDb = async (values) => {
 export const pullOneNote = async (id) => {
   const queryText = `SELECT * FROM notes WHERE id = ${id}`;
   const values2 = [];
-
   const note = await query(queryText, values2);
-
   return note[0][0];
-
-  // await query(queryText, values2).then((note) => note[0]);
 };
 
-// "INSERT INTO notes (id, title, tags, long_text, created_at, updated_at, active, created_by, date_time_field)"
-// VALUES (1, 'Study for test', 'study, test', 'Study for the math test coming up next week.', '2023-06-27 08:00:00', '2023-06-27 08:00:00', 1, 'John Doe', '2023-06-27 08:00:00');
+export const getNotes_IdTitleCreatedUpdated =
+  "SELECT id, title, created_at, updated_at FROM notes;";
+
+

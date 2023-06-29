@@ -2,11 +2,10 @@
 
 import { useState, useRef, useEffect } from "react";
 import TodoForm from "./ToDoForm";
-import { useRouter } from "next/navigation";
 
 const ToDoItem = ({ item, setTodo }) => {
   const dialog = useRef();
-  const router = useRouter();
+
 
   const openDialog = () => {
     dialog.current.showModal();
@@ -24,9 +23,11 @@ const ToDoItem = ({ item, setTodo }) => {
   };
 
   const onDeleteButtonHandler = async () => {
-    await fetch(`/api/todo/${item.item_id}`).then((res) => {
+    await fetch(`/api/todo/${item.id}`, {
+      method: "DELETE",
+    }).then((res) => {
+      setTodo((prev) => prev.filter((item2) => item2.id !== item.id));
       dialog.current.close();
-      router.push("/notes");
     });
   };
 
@@ -75,17 +76,6 @@ const ToDoItem = ({ item, setTodo }) => {
 };
 
 const Todo = () => {
-  // const items = [
-  //   {
-  //     item_id: 1,
-  //     title: "Demo Item",
-  //     details: "This is a demo to do item",
-  //     due_date: "2023-06-30T22:00:00.000Z",
-  //     priority: "Medium",
-  //     status: "Pending",
-  //   },
-  // ];
-
   const [items, setTodo] = useState([]);
 
   useEffect(() => {
@@ -93,6 +83,8 @@ const Todo = () => {
       try {
         const response = await fetch(`/api/todo`);
         const data = await response.json();
+
+        // console.log(data);
 
         setTodo(data);
       } catch (error) {
@@ -150,3 +142,22 @@ export default Todo;
 //     status: "Pending",
 //   },
 // ];
+
+// {
+//   item_id: 1,
+//   title: "Grocery shopping",
+//   details: "Buy milk, eggs, bread, and fruits",
+//   due_date: "2023-07-05",
+//   priority: "High",
+//   status: "Pending",
+// },
+// {
+//   item_id: 2,
+//   title: "Finish project report",
+//   details:
+//     "Complete the final sections of the project report and proofread",
+//   due_date: "2023-07-10",
+//   priority: "Medium",
+//   status: "In Progress",
+// },
+// ]
