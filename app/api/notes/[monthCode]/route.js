@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
+import { monthCode } from "../../../../lib/monthCode";
 
 export async function POST(req) {
-  let text = JSON.parse(await new Response(req.body).text()); //temp
-  const { title, tags, long_text } = text;
+  const { title, tags, long_text } = await req.json();
 
-  let userId = 1;
+  if (!title || !long_text) {
+    return NextResponse.json({ message: "Title and Long_Text are required!" });
+  }
 
+  const userId = 1;
   const date = new Date();
-  let year = date.getFullYear();
-  let month = (1 + date.getMonth()).toString().padStart(2, "0");
-
-  let monthCode = `${month}-${year}`;
+  const currentMonthCode = monthCode(new Date());
 
   const newNote = {
     title,
@@ -24,7 +24,7 @@ export async function POST(req) {
   };
 
   const response = await fetch(
-    `https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/notes/${monthCode}.json`,
+    `https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/notes/${currentMonthCode}.json`,
     {
       method: "POST",
       headers: {
@@ -34,8 +34,7 @@ export async function POST(req) {
     }
   );
 
-  const id = await response.json();
-  const noteId = id.name;
+  const { name } = await response.json();
 
-  return new NextResponse(noteId, { status: 200 });
+  return NextResponse.json(name);
 }

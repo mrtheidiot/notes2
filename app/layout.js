@@ -16,11 +16,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <div className="p-2">
-          <Navbar />
+          <Navbar /> <br />
 
           <main className="w-full flex ">
-            <section className="w-2/3">{children}</section>
-            <section className="w-1/3 p-0">
+            <section className="w-3/5">{children}</section>
+            <section className="w-2/5 p-0">
               
               <Todo />
             </section>

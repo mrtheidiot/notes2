@@ -15,19 +15,18 @@ export async function GET(request, context) {
   return NextResponse.json(note, { status: 200 });
 }
 
-export async function PATCH(request, context) {
-  const id = context.params.noteid;
-  const monthCode = context.params.monthCode;
+export async function PATCH(request, { params }) {
+  const id = params.noteid;
+  const monthCode = params.monthCode;
 
-  const { title, tags, long_text, date_time_field } = JSON.parse(
-    await new Response(request.body).text()
-  );
+  const { title, tags, long_text, date_time_field, folder } = await request.json();
 
   const updatedNote = {
     title,
     tags,
     long_text,
     date_time_field,
+    folder
   };
 
   const response = await fetch(

@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
-  console.log("inside get notes function");
-
   const response = await fetch(
     `https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/notes.json`,
     {
-      cache: "no-cache",
+      // cache: "no-cache",
       next: {
         revalidate: 10,
       },
@@ -25,5 +23,5 @@ export async function GET(req) {
     }
   }
 
-  return new NextResponse(JSON.stringify(notes), { status: 200 });
+  return NextResponse.json(notes);
 }
