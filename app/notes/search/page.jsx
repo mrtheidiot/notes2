@@ -8,7 +8,7 @@ import { getAllExistingSearchOptions } from "../../../lib/fetchDataFunctions/fet
 const Search = async ({ searchParams }) => {
   const { monthCode, created_at, updated_at, folder } = searchParams;
 
-  const response = await fetch(`${process.env.FIREBASE_URL}/notes.json`);
+  const response = await fetch(`https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/notes.json`);
   const data = await response.json();
 
   let allNotes = [];
