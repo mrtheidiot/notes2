@@ -1,7 +1,6 @@
 "use client";
 
-import CustomEditor from "../../../../components/Editor";
-import Link from "next/link";
+import CustomEditor from "../EditorTinyMCE/Editor";
 import React, {
   useRef,
   useState,
@@ -10,7 +9,7 @@ import React, {
   Suspense,
 } from "react";
 import { useRouter } from "next/navigation";
-import { formatDate } from "../../../../../lib/formatedDate";
+import { formatDateToYYYYMMDD } from "../../../lib/formatDateToYYYYMMDD";
 
 const EditForm = ({ data, folders }) => {
   const {
@@ -37,21 +36,17 @@ const EditForm = ({ data, folders }) => {
   }
 
   const onEditNoteHandler = useCallback(async () => {
-    const formatedDate = formatDate(new Date(newDate));
-
-    const values = {
-      title: newTitle,
-      tags: newTags,
-      long_text: editorRef.current.getContent(),
-      date_time_field: formatedDate,
-      folder: newFolder,
-    };
-
     try {
       const response = await fetch(`/api/notes/${monthCode}/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          title: newTitle,
+          tags: newTags,
+          long_text: editorRef.current.getContent(),
+          date_time_field: formatDateToYYYYMMDD(new Date(newDate)),
+          folder: newFolder,
+        }),
       });
     } catch (err) {
       console.log(err);
@@ -64,9 +59,9 @@ const EditForm = ({ data, folders }) => {
       console.log("Saving...");
     }, 10000);
     return () => clearInterval(intervalId);
-  }, [onEditNoteHandler]); // Pass an empty array as the second argument to run the effect once when the component mounts
+  }, [onEditNoteHandler]);
 
-  const onCancelChanges = () => {
+  const onCancelChangesHandler = () => {
     router.push("/notes");
   };
 
@@ -107,21 +102,21 @@ const EditForm = ({ data, folders }) => {
             className="bg-slate-500 px-3 py-1"
           />
         </span>
+        <label className="">
+          <span>Folder</span>
+          <select
+            className="bg-slate-500 px-3 py-1"
+            value={newFolder}
+            onChange={(e) => setFolder(e.target.value)}
+          >
+            {folders.map((folder) => (
+              <option key={folder} value={folder}>
+                {folder}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
-      <label className="w-1/5">
-        <span>Folder</span>
-        <select
-          className="bg-slate-500 px-3 py-1"
-          value={newFolder}
-          onChange={(e) => setFolder(e.target.value)}
-        >
-          {folders.map((folder) => (
-            <option key={folder} value={folder}>
-              {folder}
-            </option>
-          ))}
-        </select>
-      </label>
       <Suspense fallback={<Loading />}>
         <CustomEditor longText={longText} ref={editorRef} />
       </Suspense>
@@ -129,7 +124,7 @@ const EditForm = ({ data, folders }) => {
         <button
           className="p-2 bg-slate-500 text-white rounded shadow-md hover:bg-slate-600 transition-all duration-200 transform active:scale-90 w-5/12"
           type="button"
-          onClick={onCancelChanges}
+          onClick={onCancelChangesHandler}
         >
           Cancel Changes
         </button>

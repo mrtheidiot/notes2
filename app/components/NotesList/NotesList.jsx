@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatDate2 } from "../../lib/formatedDate";
+import { formatDateToYYYYMMDD } from "../../../lib/formatDateToYYYYMMDD";
 
 const NotesList = ({ notes }) => {
   return (
@@ -24,7 +24,7 @@ const NotesList = ({ notes }) => {
               {note.title}
             </td>
             <td className="px-3 py-2 whitespace-nowrap text-center">
-              {formatDate2(note.updated_at)}
+              {formatDateToYYYYMMDD(note.updated_at)}
             </td>
             <td className="px-6 py-4 whitespace-nowrap space-x-2 text-center">
               <Link

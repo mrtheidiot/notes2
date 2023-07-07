@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { formatDate2 } from "../../../lib/formatedDate";
+import { formatDateToYYYYMMDD } from "../../../lib/formatDateToYYYYMMDD";
 import TodoForm from "./ToDoForm";
 
 const ToDoItem = ({ item, setTodo }) => {
@@ -28,7 +28,7 @@ const ToDoItem = ({ item, setTodo }) => {
       >
         <div className="w-2/4 px-2 py-1">{item.title}</div>
         <div className="w-1/4 px-2 py-1 text-center">
-          {formatDate2(item.due_date)}
+          {formatDateToYYYYMMDD(item.due_date)}
         </div>
         <div className="w-1/4 px-2 py-1 text-center">{item.priority}</div>
       </div>
@@ -39,7 +39,9 @@ const ToDoItem = ({ item, setTodo }) => {
       >
         <h1 className="font-bold text-2xl mb-2 text-center">{item.title}</h1>
         <p className="text-lg">{item.details}</p>
-        <p className="text-lg">Due Date: {formatDate2(item.due_date)}</p>
+        <p className="text-lg">
+          Due Date: {formatDateToYYYYMMDD(item.due_date)}
+        </p>
         <p className="text-lg">Priority: {item.priority}</p>
         <p className="text-lg">Status: {item.status}</p>
         <div className="flex justify-between mt-6">
@@ -70,15 +72,37 @@ const ToDoItem = ({ item, setTodo }) => {
 const Todo = () => {
   const [items, setTodo] = useState([]);
 
+  function sortByPriorityAndDate(arr) {
+    const priorityRank = {
+      High: 3,
+      Medium: 2,
+      Low: 1,
+    };
+
+    return arr.sort((a, b) => {
+      // sort by priority first
+      if (priorityRank[a.priority] > priorityRank[b.priority]) {
+        return -1;
+      }
+      if (priorityRank[a.priority] < priorityRank[b.priority]) {
+        return 1;
+      }
+      // if priority is the same, then sort by date
+      const dateA = Date.parse(a.due_date);
+      const dateB = Date.parse(b.due_date);
+      return dateB - dateA;
+    });
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/todo`);
         const data = await response.json();
+        const sortedTodos = sortByPriorityAndDate(data);
+        console.log(sortedTodos)
 
-        // console.log(data);
-
-        setTodo(data);
+        setTodo(sortedTodos);
       } catch (error) {
         console.error("An error occurred while fetching data:", error);
       }
@@ -104,52 +128,3 @@ const Todo = () => {
 };
 
 export default Todo;
-
-//   // const [items, setTodo] = useState([]);
-
-//   // useEffect(() => {
-//   //   const fetchData = async () => {
-//   //     try {
-//   //       const response = await fetch(`/api/todo`);
-//   //       const data = await response.json();
-
-//   //       console.log(data)
-
-//   //       setTodo(data)
-
-//   //     } catch (error) {
-//   //       console.error("An error occurred while fetching data:", error);
-//   //     }
-//   //   };
-//   //   fetchData();
-//   // }, []);
-
-// const items = [
-//   {
-//     item_id: 1,
-//     title: "Demo Item",
-//     details: "This is a demo to do item",
-//     due_date: "2023-06-30T22:00:00.000Z",
-//     priority: "Medium",
-//     status: "Pending",
-//   },
-// ];
-
-// {
-//   item_id: 1,
-//   title: "Grocery shopping",
-//   details: "Buy milk, eggs, bread, and fruits",
-//   due_date: "2023-07-05",
-//   priority: "High",
-//   status: "Pending",
-// },
-// {
-//   item_id: 2,
-//   title: "Finish project report",
-//   details:
-//     "Complete the final sections of the project report and proofread",
-//   due_date: "2023-07-10",
-//   priority: "Medium",
-//   status: "In Progress",
-// },
-// ]

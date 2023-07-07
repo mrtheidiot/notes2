@@ -1,13 +1,11 @@
-import EditForm from "./EditForm";
-import {
-  getAllExistingSearchOptions,
-  getAllNotes,
-} from "../../../../../lib/fetchDataFunctions/fetchFunctions";
+import EditForm from "../../../../components/EditComponents/EditForm";
+import { getAllExistingSearchOptions } from "../../../../../lib/getAllExistingSearchOptions";
+import { getAllNotes_convToArr } from "../../../../../lib/getAllNotes_convToArr";
 
 export const revalidate = 0;
 
 const EditNote = async ({ params }) => {
-  const notes = await getAllNotes();
+  const notes = await getAllNotes_convToArr();
   const searchValues = getAllExistingSearchOptions(notes);
 
   const note = notes.find(

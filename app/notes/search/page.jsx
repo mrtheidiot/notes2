@@ -1,14 +1,14 @@
-import NotesList from "../NotesList";
-import { formatDate2 } from "../../../lib/formatedDate";
-import AllNotesFilterBar from "../AllNotesFilterBar";
-import { getAllExistingSearchOptions } from "../../../lib/fetchDataFunctions/fetchFunctions";
-
-
+import NotesList from "./../../components/NotesList/NotesList";
+import { formatDateToYYYYMMDD } from "../../../lib/formatDateToYYYYMMDD";
+import AllNotesFilterBar from "../../components/SearchComponents/AllNotesFilterBar";
+import { getAllExistingSearchOptions } from "../../../lib/getAllExistingSearchOptions"
 
 const Search = async ({ searchParams }) => {
   const { monthCode, created_at, updated_at, folder } = searchParams;
 
-  const response = await fetch(`https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/notes.json`);
+  const response = await fetch(
+    `https://notes2-4ef20-default-rtdb.europe-west1.firebasedatabase.app/notes.json`
+  );
   const data = await response.json();
 
   let allNotes = [];
@@ -25,10 +25,10 @@ const Search = async ({ searchParams }) => {
     (note) =>
       (created_at === "all"
         ? true
-        : formatDate2(note.created_at) === created_at) &&
+        : formatDateToYYYYMMDD(note.created_at) === created_at) &&
       (updated_at === "all"
         ? true
-        : formatDate2(note.updated_at) === updated_at) &&
+        : formatDateToYYYYMMDD(note.updated_at) === updated_at) &&
       (monthCode === "all" ? true : note.monthCode === monthCode) &&
       (folder === "all" ? true : note.folder === folder)
   );

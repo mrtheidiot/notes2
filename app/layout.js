@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Todo from "./components/Todo/Todo";
 
 

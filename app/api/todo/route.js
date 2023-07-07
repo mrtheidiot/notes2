@@ -53,10 +53,3 @@ export async function POST(req) {
 
   return new NextResponse(JSON.stringify(data.name), { status: 200 });
 }
-
-// item_id INT PRIMARY KEY,
-// title VARCHAR(100),
-// details TEXT,
-// due_date DATE,
-// priority ENUM('Low', 'Medium', 'High'),
-// status ENUM('Pending', 'In Progress', 'Completed')

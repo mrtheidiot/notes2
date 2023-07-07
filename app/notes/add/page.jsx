@@ -1,7 +1,7 @@
 "use client";
 
 // import CustomEditor from "@/app/components/Editor";
-import CustomEditor from "../../components/Editor";
+import CustomEditor from "../../components/EditorTinyMCE/Editor";
 import React, { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 

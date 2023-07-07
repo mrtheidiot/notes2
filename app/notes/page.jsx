@@ -1,14 +1,12 @@
-import NotesList from "./NotesList";
-import AllNotesFilterBar from "./AllNotesFilterBar";
-import {
-  getAllExistingSearchOptions,
-  getAllNotes,
-} from "./../../lib/fetchDataFunctions/fetchFunctions";
+import NotesList from './../components/NotesList/NotesList'
+import AllNotesFilterBar from "../components/SearchComponents/AllNotesFilterBar";
+import { getAllExistingSearchOptions } from "./../../lib/getAllExistingSearchOptions";
+import { getAllNotes_convToArr } from "./../../lib/getAllNotes_convToArr";
 
 export const revalidate = 10;
 
 const Notes = async () => {
-  const notes = await getAllNotes();
+  const notes = await getAllNotes_convToArr();
   const searchValues = getAllExistingSearchOptions(notes);
 
   const content =
