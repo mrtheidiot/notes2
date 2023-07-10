@@ -45,6 +45,7 @@ const EditForm = ({ data, folders }) => {
           tags: newTags,
           long_text: editorRef.current.getContent(),
           date_time_field: formatDateToYYYYMMDD(new Date(newDate)),
+          updated_at: formatDateToYYYYMMDD(new Date()),
           folder: newFolder,
         }),
       });

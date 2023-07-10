@@ -19,14 +19,16 @@ export async function PATCH(request, { params }) {
   const id = params.noteid;
   const monthCode = params.monthCode;
 
-  const { title, tags, long_text, date_time_field, folder } = await request.json();
+  const { title, tags, long_text, date_time_field, updated_at, folder } =
+    await request.json();
 
   const updatedNote = {
     title,
     tags,
     long_text,
     date_time_field,
-    folder
+    updated_at,
+    folder,
   };
 
   const response = await fetch(

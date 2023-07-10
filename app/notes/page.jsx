@@ -1,9 +1,9 @@
-import NotesList from './../components/NotesList/NotesList'
+import NotesList from "./../components/NotesList/NotesList";
 import AllNotesFilterBar from "../components/SearchComponents/AllNotesFilterBar";
 import { getAllExistingSearchOptions } from "./../../lib/getAllExistingSearchOptions";
 import { getAllNotes_convToArr } from "./../../lib/getAllNotes_convToArr";
 
-export const revalidate = 10;
+export const revalidate = 0;
 
 const Notes = async () => {
   const notes = await getAllNotes_convToArr();
