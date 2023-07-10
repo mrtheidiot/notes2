@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { formatDateToYYYYMMDD } from "../../../lib/formatDateToYYYYMMDD";
 
-const TodoForm = ({
+export const TodoForm = ({
   edit,
   isOpen,
   setIsOpen,
@@ -130,5 +130,3 @@ const TodoForm = ({
     </div>
   );
 };
-
-export default TodoForm;

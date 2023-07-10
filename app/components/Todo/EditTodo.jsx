@@ -1,12 +1,12 @@
 "use client";
 
+import { TodoForm } from "./TodoForm";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import TodoForm from "./TodoForm";
 
 const EditTodo = ({ isOpen, setIsOpen, todo }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const onAddTodoHandler = async (newTodoItem) => {
@@ -20,12 +20,12 @@ const EditTodo = ({ isOpen, setIsOpen, todo }) => {
       body: JSON.stringify(newTodoItem),
     });
 
-    console.log(response)
+    console.log(response);
 
     if (response.ok) {
-        setIsOpen(false);
+      setIsOpen(false);
     } else {
-        setError({message: "There was an error editing the todo!"})
+      setError({ message: "There was an error editing the todo!" });
     }
     setIsLoading(false);
   };
